@@ -41,13 +41,7 @@ func GetUser(w http.ResponseWriter, r *http.Request, params martini.Params){
 }
 
 func NewUser(w http.ResponseWriter, r *http.Request) {
-	var user structures.User
-	
-	decoder := json.NewDecoder(r.Body)
-	err := decoder.Decode(&user)
-	if err != nil {
-		log.Fatal(err)
-	}
+	user := GetUserRequest(r)
 
 	response := structures.Response {200, connect.CreateUser(user) }
 	json.NewEncoder(w).Encode(response)
@@ -55,14 +49,8 @@ func NewUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateUser(w http.ResponseWriter, r *http.Request, params martini.Params){
-	var user structures.User
+	user := GetUserRequest(r)
 	id := params["id"]
-
-	decoder := json.NewDecoder(r.Body)
-	err := decoder.Decode(&user)
-	if err != nil {
-		log.Fatal(err)
-	}
 
 	response := structures.Response {200, connect.UpdateUser(id, user) }
 	json.NewEncoder(w).Encode(response)
@@ -76,5 +64,17 @@ func DeleteUser(w http.ResponseWriter, r *http.Request, params martini.Params){
 	response := structures.Response {200, user}
 
 	json.NewEncoder(w).Encode(response)
+}
+
+func GetUserRequest(request *http.Request){
+	var user structures.User
+
+	decoder := json.NewDecoder(request.Body)
+	err := decoder.Decode(&user)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return user
 }
 
