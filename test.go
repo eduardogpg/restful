@@ -1,17 +1,19 @@
 package main 
-
-import "net/http"
-import "fmt"
-import "bytes"
-import "io/ioutil"
+//https://play.golang.org/p/Qpob4Yu3wG
+import (
+    "bytes"
+    "fmt"
+    "io/ioutil"
+    "net/http"
+)
 
 func main() {
-	url := "http://127.0.0.1:8000/users/delete/3"
+    url := "http://127.0.0.1:8000/users/delete/3"
     fmt.Println("URL:>", url)
 
     var jsonStr = []byte(`{ "username": "Valor nuevo dos", "first_name": "cambio de nombre", "last_name": "cambio de apellido"}`)
-
-    req, err := http.NewRequest("DELETE", url, bytes.NewBuffer(jsonStr))
+    
+    req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
     req.Header.Set("X-Custom-Header", "myvalue")
     req.Header.Set("Content-Type", "application/json")
 
@@ -27,3 +29,4 @@ func main() {
     body, _ := ioutil.ReadAll(resp.Body)
     fmt.Println("response Body:", string(body))
 }
+
