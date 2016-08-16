@@ -6,12 +6,12 @@ import "bytes"
 import "io/ioutil"
 
 func main() {
-	url := "http://127.0.0.1:8000/users/new"
+	url := "http://127.0.0.1:8000/users/delete/3"
     fmt.Println("URL:>", url)
 
-    var jsonStr = []byte(`{ "username": "eduardo78d", "first_name": "Eduardo Ismael", "last_name": "Garcia"}`)
+    var jsonStr = []byte(`{ "username": "Valor nuevo dos", "first_name": "cambio de nombre", "last_name": "cambio de apellido"}`)
 
-    req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+    req, err := http.NewRequest("DELETE", url, bytes.NewBuffer(jsonStr))
     req.Header.Set("X-Custom-Header", "myvalue")
     req.Header.Set("Content-Type", "application/json")
 

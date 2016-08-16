@@ -7,10 +7,7 @@ type User struct {
   Last_Name 	string	`json:"last_name"`
 }
 
-type Users []User
-
 type Response struct {
   Status 			int			`json:"status"`
-  Message 		string 	`json:"messages"`
-  Users				Users		`json:"users"`
+  User				User 		`json:"users"`
 }

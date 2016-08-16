@@ -29,18 +29,33 @@ func ConnectORM(stringConnection string) *gorm.DB {
 	return connection
 }
 
-func CreateUser(user structures.User) structures.Users {
+func CreateUser(user structures.User) structures.User {
   connection.Create(&user)
-  users := structures.Users{
-      user,
-    }
-  return users
+  return user
 }
 
-func GetUser(id string) structures.Users {
-  users := structures.Users{}
-  connection.Where("id = ?", id).Find(&users)
-  return users
+func GetUser(id string) structures.User {
+  user := structures.User{}
+  connection.Where("id = ?", id).First(&user)
+  return user
+}
+
+func UpdateUser(id string, user structures.User) structures.User {
+  currentUser := structures.User{}
+  connection.Where("id = ?", id).First(&currentUser)
+  
+  currentUser.Username = user.Username
+  currentUser.First_Name = user.First_Name
+  currentUser.Last_Name = user.Last_Name
+  connection.Save(&currentUser)
+
+  return currentUser
+}
+
+func DeleteUser(id string) {
+  user := structures.User{}
+  connection.Where("id = ?", id).First(&user)
+  connection.Delete(&user)
 }
 
 func CloseConnection(){
